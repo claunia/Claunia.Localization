@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Claunia.Localization", "Claunia.Localization\Claunia.Localization\Claunia.Localization.csproj", "{5D196552-053C-4D4E-85F1-ECB5EF4FEB8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Claunia.Localization.Desktop", "Claunia.Localization\Claunia.Localization.Desktop\Claunia.Localization.Desktop.csproj", "{258FEA96-4E93-4C8F-94EF-1319F93B350D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D196552-053C-4D4E-85F1-ECB5EF4FEB8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D196552-053C-4D4E-85F1-ECB5EF4FEB8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D196552-053C-4D4E-85F1-ECB5EF4FEB8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D196552-053C-4D4E-85F1-ECB5EF4FEB8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{258FEA96-4E93-4C8F-94EF-1319F93B350D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{258FEA96-4E93-4C8F-94EF-1319F93B350D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{258FEA96-4E93-4C8F-94EF-1319F93B350D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{258FEA96-4E93-4C8F-94EF-1319F93B350D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{258FEA96-4E93-4C8F-94EF-1319F93B350D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{258FEA96-4E93-4C8F-94EF-1319F93B350D}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
