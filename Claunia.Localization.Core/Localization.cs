@@ -53,7 +53,7 @@ namespace Claunia.Localization.Core
         /// <returns>The new translator</returns>
         public Translator NewTranslator(string name, string email, string nativeName = null)
         {
-            int        id         = translators.Max(t => t.Id) + 1;
+            int        id         = translators.Count > 0 ? translators.Max(t => t.Id) + 1 : 1;
             Translator translator = new Translator(id) {Name = name, Email = email};
             translator.Modified += OnModified;
 
