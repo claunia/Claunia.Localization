@@ -3,6 +3,7 @@ namespace Claunia.Localization.Core
     /// <summary>Enumerates programming languages for parameters</summary>
     public enum Language
     {
+        None,
         C,
         ObjectiveC,
         CSharp,
@@ -20,6 +21,7 @@ namespace Claunia.Localization.Core
         Ycp,
         Tcl,
         Perl,
+        PerlBraced,
         Php,
         GccInternal,
         GfcInternal,
@@ -27,6 +29,7 @@ namespace Claunia.Localization.Core
         QtPlural,
         Kde,
         Boost,
-        JavaScript
+        JavaScript,
+        Lua
     }
 }
