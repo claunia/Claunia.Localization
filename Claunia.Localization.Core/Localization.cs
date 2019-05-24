@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -9,8 +10,9 @@ namespace Claunia.Localization.Core
     /// </summary>
     public class Localization
     {
-        readonly ObservableCollection<Message>    messages;
-        readonly ObservableCollection<Translator> translators;
+        readonly Dictionary<string, Dictionary<string, string>> indexes;
+        readonly ObservableCollection<Message>                  messages;
+        readonly ObservableCollection<Translator>               translators;
 
         public Localization()
         {
@@ -24,6 +26,7 @@ namespace Claunia.Localization.Core
             messages                      =  new ObservableCollection<Message>();
             Messages                      =  new ReadOnlyObservableCollection<Message>(messages);
             messages.CollectionChanged    += OnModified;
+            indexes                       =  new Dictionary<string, Dictionary<string, string>>();
         }
 
         /// <summary>Date this localization has been created</summary>
@@ -96,6 +99,32 @@ namespace Claunia.Localization.Core
         {
             Message message = messages.FirstOrDefault(t => t.Id == id);
             return !(message is null) && messages.Remove(message);
+        }
+
+        public Dictionary<string, string> GetIndex(string locale)
+        {
+            // TODO: Plurals
+            if(indexes.TryGetValue(locale, out Dictionary<string, string> existingIndex)) return existingIndex;
+
+            Dictionary<string, string> index = new Dictionary<string, string>();
+            foreach(Message message in messages)
+            {
+                LocalizedString translated = message.Translations.FirstOrDefault(l => l.Locale == locale);
+
+                if(translated is null)
+                {
+                    // TODO: Requested "es" but only "es_ES" exists
+                    int underscore = locale.IndexOf('_');
+                    if(underscore > 0)
+                        translated = message.Translations.FirstOrDefault(l => l.Locale == locale.Substring(underscore));
+                }
+
+                index.Add(message.Id, translated is null ? message.Source.Singular : translated.Singular);
+            }
+
+            indexes.Add(locale, index);
+
+            return index;
         }
     }
 }
