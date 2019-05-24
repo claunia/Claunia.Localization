@@ -93,5 +93,7 @@ namespace Claunia.Localization.Core
                 Modified?.Invoke(this, EventArgs.Empty);
             }
         }
+
+        public override string ToString() => description;
     }
 }

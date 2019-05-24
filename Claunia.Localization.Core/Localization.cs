@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Claunia.Localization.Core
@@ -119,7 +120,12 @@ namespace Claunia.Localization.Core
                         translated = message.Translations.FirstOrDefault(l => l.Locale == locale.Substring(underscore));
                 }
 
-                index.Add(message.Id, translated is null ? message.Source.Singular : translated.Singular);
+                try { index.Add(message.Id, translated is null ? message.Source.Singular : translated.Singular); }
+                catch(ArgumentException e)
+                {
+                    Debug.WriteLine(e);
+                    throw;
+                }
             }
 
             indexes.Add(locale, index);

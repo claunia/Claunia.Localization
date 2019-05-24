@@ -107,6 +107,8 @@ namespace Claunia.Localization.Core
         /// </summary>
         public ReadOnlyObservableCollection<Parameter> Parameters { get; }
 
+        public override string ToString() => Source.Singular;
+
         /// <summary>
         ///     Initializes a new localized string in this message
         /// </summary>

@@ -59,5 +59,7 @@ namespace Claunia.Localization.Core
                 Modified?.Invoke(this, EventArgs.Empty);
             }
         }
+
+        public override string ToString() => email is null ? name : $"{name} <{email}>";
     }
 }

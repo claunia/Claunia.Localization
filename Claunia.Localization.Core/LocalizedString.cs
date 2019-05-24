@@ -80,6 +80,8 @@ namespace Claunia.Localization.Core
         /// </summary>
         public ReadOnlyObservableCollection<Plural> Plurals { get; }
 
+        public override string ToString() => singular;
+
         /// <summary>
         ///     Initializes a new plural in this message
         /// </summary>

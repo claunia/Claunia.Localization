@@ -4,11 +4,11 @@ namespace Claunia.Localization.Core
 {
     public class Project
     {
-        string name;
-
+        string                name;
         internal EventHandler ProjectModified;
         string                url;
         string                version;
+
         /// <summary>
         ///     Project name
         /// </summary>
@@ -47,5 +47,7 @@ namespace Claunia.Localization.Core
                 ProjectModified?.Invoke(this, EventArgs.Empty);
             }
         }
+
+        public override string ToString() => version is null ? name : $"{name} {version}";
     }
 }
