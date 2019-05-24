@@ -40,6 +40,9 @@ namespace Claunia.Localization.Parsers
             string     currentReference    = "";
             string     currentContext      = "";
             Language   currentLanguage     = Language.None;
+            bool       inMsgId             = false;
+            bool       inMsgStr            = false;
+            bool       inMsgCtxt           = false;
 
             while(line != null)
             {
@@ -49,7 +52,7 @@ namespace Claunia.Localization.Parsers
 
                 if(line == string.Empty)
                 {
-                    if(!firstEmptyMessageId)
+                    if(!firstEmptyMessageId && currentMsgId != string.Empty)
                     {
                         Message message = localization.NewMessage();
 
@@ -75,6 +78,9 @@ namespace Claunia.Localization.Parsers
                     extractedComment    = "";
                     currentReference    = "";
                     currentContext      = "";
+                    inMsgId             = false;
+                    inMsgStr            = false;
+                    inMsgCtxt           = false;
                     continue; // TODO
                 }
 
@@ -197,79 +203,98 @@ namespace Claunia.Localization.Parsers
 
                 if(line.StartsWith("msgid ", StringComparison.Ordinal))
                 {
-                    currentMsgId += line.Substring(7, line.Length - 8);
+                    currentMsgId = line.Substring(7, line.Length - 8);
+                    inMsgId      = true;
+                    inMsgStr     = false;
+                    inMsgCtxt    = false;
                     continue;
                 }
 
                 if(line.StartsWith("msgstr ", StringComparison.Ordinal))
                 {
                     currentMsgString = line.Substring(7, line.Length - 8);
+                    inMsgId          = false;
+                    inMsgStr         = true;
+                    inMsgCtxt        = false;
                     continue;
                 }
 
                 if(line.StartsWith("msgctxt ", StringComparison.Ordinal))
                 {
                     currentContext = line.Substring(7, line.Length - 8);
+                    inMsgId        = false;
+                    inMsgStr       = false;
+                    inMsgCtxt      = true;
                     continue;
                 }
 
-                if(line[0] == '"')
+                if(line[0] != '"') continue;
+
+                if(inMsgId)
                 {
-                    if(currentMsgId != string.Empty)
-                    {
-                        currentMsgString += line.Substring(1, line.Length - 2);
-                        continue;
-                    }
-
-                    string projectString = line.Substring(1, line.Length - 2);
-
-                    if(projectString.StartsWith("Project-Id-Version", StringComparison.Ordinal))
-                    {
-                        string projectIdVersion = projectString.Substring(20, projectString.Length - 20);
-                        if(projectIdVersion.EndsWith("\\n", StringComparison.Ordinal))
-                            projectIdVersion = projectIdVersion.Substring(0, projectIdVersion.Length - 2);
-
-                        localization.Project.Name = projectIdVersion;
-                        continue;
-                    }
-
-                    if(projectString.StartsWith("Report-Msgid-Bugs-To", StringComparison.Ordinal))
-                    {
-                        string projectReportTo = projectString.Substring(22, projectString.Length - 22);
-                        if(projectReportTo.EndsWith("\\n", StringComparison.Ordinal))
-                            projectReportTo = projectReportTo.Substring(0, projectReportTo.Length - 2);
-
-                        localization.Project.Url = projectReportTo;
-                        continue;
-                    }
-
-                    if(projectString.StartsWith("Last-Translator", StringComparison.Ordinal))
-                    {
-                        string lastTranslator = projectString.Substring(17, projectString.Length - 17);
-                        if(lastTranslator.EndsWith("\\n", StringComparison.Ordinal))
-                            lastTranslator = lastTranslator.Substring(0, lastTranslator.Length - 2);
-
-                        if(lastTranslator[lastTranslator.Length - 1] == '>')
-                        {
-                            int    emailStart = lastTranslator.LastIndexOf('<');
-                            string name       = lastTranslator.Substring(0, emailStart - 1);
-                            string email = lastTranslator.Substring(emailStart                         + 1,
-                                                                    lastTranslator.Length - emailStart - 2);
-
-                            currentTranslator = localization.NewTranslator(name, email);
-                        }
-                        else currentTranslator = localization.NewTranslator(lastTranslator, null);
-
-                        continue;
-                    }
-
-                    if(projectString.StartsWith("Language", StringComparison.Ordinal))
-                    {
-                        currentLocale = projectString.Substring(10, projectString.Length - 10);
-                        if(currentLocale.EndsWith("\\n", StringComparison.Ordinal))
-                            currentLocale = currentLocale.Substring(0, currentLocale.Length - 2);
-                    }
+                    currentMsgId += line.Substring(1, line.Length - 2);
+                    continue;
                 }
+
+                if(inMsgStr)
+                {
+                    currentMsgString += line.Substring(1, line.Length - 2);
+                    continue;
+                }
+
+                if(inMsgCtxt)
+                {
+                    currentContext += line.Substring(1, line.Length - 2);
+                    continue;
+                }
+
+                string projectString = line.Substring(1, line.Length - 2);
+
+                if(projectString.StartsWith("Project-Id-Version", StringComparison.Ordinal))
+                {
+                    string projectIdVersion = projectString.Substring(20, projectString.Length - 20);
+                    if(projectIdVersion.EndsWith("\\n", StringComparison.Ordinal))
+                        projectIdVersion = projectIdVersion.Substring(0, projectIdVersion.Length - 2);
+
+                    localization.Project.Name = projectIdVersion;
+                    continue;
+                }
+
+                if(projectString.StartsWith("Report-Msgid-Bugs-To", StringComparison.Ordinal))
+                {
+                    string projectReportTo = projectString.Substring(22, projectString.Length - 22);
+                    if(projectReportTo.EndsWith("\\n", StringComparison.Ordinal))
+                        projectReportTo = projectReportTo.Substring(0, projectReportTo.Length - 2);
+
+                    localization.Project.Url = projectReportTo;
+                    continue;
+                }
+
+                if(projectString.StartsWith("Last-Translator", StringComparison.Ordinal))
+                {
+                    string lastTranslator = projectString.Substring(17, projectString.Length - 17);
+                    if(lastTranslator.EndsWith("\\n", StringComparison.Ordinal))
+                        lastTranslator = lastTranslator.Substring(0, lastTranslator.Length - 2);
+
+                    if(lastTranslator[lastTranslator.Length - 1] == '>')
+                    {
+                        int    emailStart = lastTranslator.LastIndexOf('<');
+                        string name       = lastTranslator.Substring(0, emailStart - 1);
+                        string email = lastTranslator.Substring(emailStart                              + 1,
+                                                                     lastTranslator.Length - emailStart - 2);
+
+                        currentTranslator = localization.NewTranslator(name, email);
+                    }
+                    else currentTranslator = localization.NewTranslator(lastTranslator, null);
+
+                    continue;
+                }
+
+                if(!projectString.StartsWith("Language", StringComparison.Ordinal)) continue;
+
+                currentLocale = projectString.Substring(10, projectString.Length - 10);
+                if(currentLocale.EndsWith("\\n", StringComparison.Ordinal))
+                    currentLocale = currentLocale.Substring(0, currentLocale.Length - 2);
             }
 
             return localization;
