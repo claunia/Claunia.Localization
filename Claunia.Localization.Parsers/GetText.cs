@@ -207,6 +207,12 @@ namespace Claunia.Localization.Parsers
                     continue;
                 }
 
+                if(line.StartsWith("msgctxt ", StringComparison.Ordinal))
+                {
+                    currentContext = line.Substring(7, line.Length - 8);
+                    continue;
+                }
+
                 if(line[0] == '"')
                 {
                     if(currentMsgId != string.Empty)
