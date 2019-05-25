@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Claunia.Localization.Parser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Claunia.Localization.Test", "Claunia.Localization.Test\Claunia.Localization.Test.csproj", "{76FBD8F7-6AF7-405B-B8F8-3D2F5C655ADD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Claunia.Localization.Benchmark", "Claunia.Localization.Benchmark\Claunia.Localization.Benchmark.csproj", "{6DDAF5A1-ACC2-437D-BC5F-E21441AB2C09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,5 +40,9 @@ Global
 		{76FBD8F7-6AF7-405B-B8F8-3D2F5C655ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76FBD8F7-6AF7-405B-B8F8-3D2F5C655ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76FBD8F7-6AF7-405B-B8F8-3D2F5C655ADD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DDAF5A1-ACC2-437D-BC5F-E21441AB2C09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DDAF5A1-ACC2-437D-BC5F-E21441AB2C09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DDAF5A1-ACC2-437D-BC5F-E21441AB2C09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DDAF5A1-ACC2-437D-BC5F-E21441AB2C09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

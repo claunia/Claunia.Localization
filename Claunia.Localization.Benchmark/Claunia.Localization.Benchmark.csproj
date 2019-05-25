@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net472</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="BenchmarkDotNet" Version="0.11.5" />
+      <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="gettext\es_ES.po">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+        <None Update="gettext\es_ES\LC_MESSAGES\catalog.mo">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Claunia.Localization.Core\Claunia.Localization.Core.csproj" />
+      <ProjectReference Include="..\Claunia.Localization.Parsers\Claunia.Localization.Parsers.csproj" />
+    </ItemGroup>
+
+</Project>
